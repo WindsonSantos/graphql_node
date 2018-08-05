@@ -9,7 +9,7 @@ class App {
     }
 
     private middleware(): void {
-        this.express.use('hello', (req: express.Request, res: express.Response, next: express.NextFunction) => {
+        this.express.use('/hello', (req: express.Request, res: express.Response, next: express.NextFunction) => {
             res.send({
                 hello: 'hello world'
             })

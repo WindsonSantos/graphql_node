@@ -7,7 +7,7 @@ class App {
         this.middleware();
     }
     middleware() {
-        this.express.use('hello', (req, res, next) => {
+        this.express.use('/hello', (req, res, next) => {
             res.send({
                 hello: 'hello world'
             });
