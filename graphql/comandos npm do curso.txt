@@ -13,8 +13,9 @@ node dist/app - vai printar o hello world no app.js
 Instalar o gulp para automatizar as tarefas do projeto
 npm i -D -E gulp@3.9.1 gulp-typescript@3.2.2 gulp-clean@0.3.2
 
-Restart de servido com nodemon
+Restart de servido com nodemon(projeto fica dando erro ao instalar esta versão, só corrigido ao instalar a versão abaixo).
 npm i -D -E nodemon@1.12.0
+Instalar a versão abaixo que o projeto vai funcionar
 npm install --save-dev gulp-nodemon
 
 Instalar express - receber as requisições
@@ -27,3 +28,18 @@ npm i -S -E express-graphql@0.6.11 graphql@0.11.7 graphql-tools@2.3.0
 
 instalar pacotes de tipos
 npm i -D -E @types/express-graphql@0.0.34 @types/graphql@0.11.5
+
+Após a instalação dos pacotes de graphql vai aparecer muitos erros de @types/bluebird, para corrigir tem que rodar o npm abaixo para fazer o downgrade da versão que foi istalada automaticamente
+npm i -D -E @types/bluebird@3.5.21
+
+Banco de dados ...
+
+Instalar o Sequelize
+npm i -D -E sequelize@4.13.10 mysql2@1.4.2
+
+pacote de tipos de sequelize@
+
+npm i -D -E @types/sequelize@4.0.76
+
+Instalação do pacote de criptar senha bcrypt
+npm i -S -E bcryptjs@2.4.3
