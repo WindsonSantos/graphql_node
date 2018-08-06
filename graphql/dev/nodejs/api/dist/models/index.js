@@ -9,6 +9,8 @@ let config = require(path.resolve(`{__dirname}./../dist/config/config.json`))[en
 let db = null;
 if (!db) {
     db = {};
+    const operatosAlias = (false);
+    config = Object.assign(operatosAlias, config);
     const sequelize = new Sequelize(config.database, config.username, config.password, config);
     fs
         .readdirSync(__dirname)
@@ -27,4 +29,4 @@ if (!db) {
     db['sequelize'] = sequelize;
 }
 exports.default = db;
-console.log(config);
+//console.log(config);

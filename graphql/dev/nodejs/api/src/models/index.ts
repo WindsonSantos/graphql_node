@@ -14,6 +14,10 @@ let db = null;
 if (!db) {
     db = {};
 
+    const operatosAlias = (false);
+
+    config = Object.assign(operatosAlias, config);
+
     const sequelize: Sequelize.Sequelize = new Sequelize(
         config.database,
         config.username,
@@ -43,4 +47,4 @@ if (!db) {
 export default <DbConnection>db;
 
 
-console.log(config);
+//console.log(config);
