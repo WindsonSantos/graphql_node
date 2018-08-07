@@ -1,51 +1,24 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const graphql_tools_1 = require("graphql-tools");
-const users = [
-    {
-        id: 1,
-        name: 'John',
-        email: 'john@email.com'
-    },
-    {
-        id: 2,
-        name: 'Windson',
-        email: 'windson@email.com'
-    },
-    {
-        id: 3,
-        name: 'Bernardo',
-        email: 'bernardo@email.com'
+const query_1 = require("./query");
+const mutation_1 = require("./mutation");
+const comment_schema_1 = require("./resources/comment/comment.schema");
+const post_schema_1 = require("./resources/post/post.schema");
+const user_schema_1 = require("./resources/user/user.schema");
+const SchemaDefinitions = `
+    type Schema {
+        query: Query
+        mutation: Mutation
     }
-];
-const typeDefs = `    
-    type User {
-        id: ID!
-        name: String!
-        email: String!
-    }
-
-    type Query {
-        allUsers: [User!]!
-    }
-
-    type Mutation {
-        createUser(name: String!, email: String!): User
-    }
-    
 `;
-const resolvers = {
-    Query: {
-        allUsers: () => users
-    },
-    Mutation: {
-        createUser: (parent, args) => {
-            const newUser = Object.assign({
-                id: users.length + 1
-            }, args);
-            users.push(newUser);
-            return newUser;
-        }
-    }
-};
-exports.default = graphql_tools_1.makeExecutableSchema({ typeDefs, resolvers });
+exports.default = graphql_tools_1.makeExecutableSchema({
+    typeDefs: [
+        SchemaDefinitions,
+        query_1.Query,
+        mutation_1.Mutation,
+        comment_schema_1.commentTypes,
+        post_schema_1.postTypes,
+        user_schema_1.userTypes
+    ]
+});

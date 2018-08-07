@@ -2,9 +2,6 @@
 Criar projeto/ inicializar o npm
 npm init -y
 
-
-
-
 criar a referencia do typescript no projeto
 npm i -D -E typescript@2.5.3
 
@@ -43,3 +40,13 @@ npm i -D -E @types/sequelize@4.0.76
 
 Instalação do pacote de criptar senha bcrypt
 npm i -S -E bcryptjs@2.4.3
+Instalar pacote de tipos
+npm i -D -E @types/bcryptjs@2.4.1
+
+
+Instalação Sequelize-Cli e ConfigInit - Sessão4, Aula 39
+npm i -g sequelize-cli@3.0.0
+npm ls -g --depth=0
+
+Criar pasta de configuração sequelize - Sessão4, Aula 39
+ sequelize init:config --config  src/config/config.json
