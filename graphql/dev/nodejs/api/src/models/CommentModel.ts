@@ -28,7 +28,7 @@ export default (sequelize: Sequelize.Sequelize, DataTypes: Sequelize.DataTypes):
             allowNull: false,
         }
     }, {
-            tableName: 'posts'
+            tableName: 'comments'
         }
     );
 

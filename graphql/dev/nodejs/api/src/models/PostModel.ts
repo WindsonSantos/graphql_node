@@ -1,5 +1,4 @@
 import * as Sequelize from 'sequelize';
-import { DEFAULT_ENCODING } from 'crypto';
 import { BaseModelInterface } from '../interfaces/BaseModelInterface';
 import { ModelsInterface } from './../interfaces/ModelsInterface';
 

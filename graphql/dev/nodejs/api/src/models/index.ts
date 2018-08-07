@@ -5,7 +5,7 @@ import * as Sequelize from 'sequelize';
 import { DbConnection } from '../interfaces/DbConnectionIterface';
 
 const basename: string = path.basename(module.filename);
-const env: string = process.env.NODE_ENV || 'development';
+const env: string = 'development' || process.env.NODE_ENV;
 
 let config = require(path.resolve(`{__dirname}./../dist/config/config.json`))[env];
 
