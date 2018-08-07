@@ -30,7 +30,7 @@ export default (sequelize: Sequelize.Sequelize, DataTypes: Sequelize.DataTypes):
             allowNull: false,
         },
         email: {
-            type: DataTypes.TEXT,
+            type: DataTypes.STRING(128),
             allowNull: false,
             unique: true
         },

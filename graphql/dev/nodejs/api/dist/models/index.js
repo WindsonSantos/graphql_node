@@ -9,7 +9,7 @@ let config = require(path.resolve(`{__dirname}./../dist/config/config.json`))[en
 let db = null;
 if (!db) {
     db = {};
-    const operatosAlias = (false);
+    const operatosAlias = false;
     config = Object.assign(operatosAlias, config);
     const sequelize = new Sequelize(config.database, config.username, config.password, config);
     fs

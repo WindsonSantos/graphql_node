@@ -14,7 +14,7 @@ let db = null;
 if (!db) {
     db = {};
 
-    const operatosAlias = (false);
+    const operatosAlias = false;
 
     config = Object.assign(operatosAlias, config);
 
