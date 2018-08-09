@@ -50,3 +50,8 @@ npm ls -g --depth=0
 
 Criar pasta de configuração sequelize - Sessão4, Aula 39
  sequelize init:config --config  src/config/config.json
+ 
+ Sessão 6, Aula 60
+ npm i -S -E lodash@4.17.4
+ isntalação dos tipos
+ npm i -D -E @types/lodash@4.14.78
