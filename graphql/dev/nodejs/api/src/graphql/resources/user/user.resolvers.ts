@@ -1,9 +1,9 @@
 import { GraphQLResolveInfo } from "graphql";
+import { Transaction } from "sequelize";
+
 import { DbConnection } from "../../../interfaces/DbConnectionIterface";
 import { UserInstance } from "../../../models/UserModel";
-import { throwError } from "../../../utils/utils";
-import { Transaction } from "../../../../node_modules/@types/sequelize";
-import { INPUT_OBJECT_TYPE_DEFINITION } from "../../../../node_modules/@types/graphql/language/kinds";
+import { handleError } from "../../../utils/utils";
 
 export const userResolvers = {
 
@@ -14,6 +14,7 @@ export const userResolvers = {
                 limit: first,
                 offset: offset
             })
+                .catch(handleError);
         }
     },
 
@@ -23,16 +24,21 @@ export const userResolvers = {
                 .findAll({
                     limit: first,
                     offset: offset
-                });
+                })
+                .catch(handleError);
+
         },
 
         user: (parent, { id }, { db }: { db: DbConnection }, info: GraphQLResolveInfo) => {
+            id = parseInt(id);
             return db.User
                 .findById(id)
                 .then((user: UserInstance) => {
                     if (!user) throw new Error(`Usuário com id: ${id} não encontrado`);
                     return user;
                 })
+                .catch(handleError);
+
         }
     },
 
@@ -41,6 +47,8 @@ export const userResolvers = {
             return db.sequelize.transaction((t: Transaction) => {
                 return db.User.create(input, { transaction: t });
             })
+                .catch(handleError);
+
         },
 
         updateUser: (parent, { id, input }, { db }: { db: DbConnection }, info: GraphQLResolveInfo) => {
@@ -54,6 +62,8 @@ export const userResolvers = {
 
                     });
             })
+                .catch(handleError);
+
         },
 
         updateUserPassword: (parent, { id, input }, { db }: { db: DbConnection }, info: GraphQLResolveInfo) => {
@@ -69,6 +79,8 @@ export const userResolvers = {
 
                     });
             })
+                .catch(handleError);
+
         },
 
         deleteUser: (parent, { id, input }, { db }: { db: DbConnection }, info: GraphQLResolveInfo) => {
@@ -83,6 +95,8 @@ export const userResolvers = {
                             .then(user => !!user);
                     });
             })
+                .catch(handleError);
+
         }
 
     }
