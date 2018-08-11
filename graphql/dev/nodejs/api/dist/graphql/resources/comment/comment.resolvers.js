@@ -33,7 +33,7 @@ exports.commentResolvers = {
                     .catch(utils_1.handleError);
             });
         },
-        updatePost: (parent, { id, input }, { db }, info) => {
+        updateComment: (parent, { id, input }, { db }, info) => {
             id = parseInt(id);
             return db.sequelize.transaction((t) => {
                 return db.Comment
@@ -47,7 +47,7 @@ exports.commentResolvers = {
                 ;
             });
         },
-        deletePost: (parent, { id, input }, { db }, info) => {
+        deleteComment: (parent, { id, input }, { db }, info) => {
             id = parseInt(id);
             return db.sequelize.transaction((t) => {
                 return db.Comment

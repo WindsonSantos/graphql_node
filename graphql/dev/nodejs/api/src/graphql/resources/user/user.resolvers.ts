@@ -45,10 +45,10 @@ export const userResolvers = {
     Mutation: {
         createUser: (parent, { input }, { db }: { db: DbConnection }, info: GraphQLResolveInfo) => {
             return db.sequelize.transaction((t: Transaction) => {
-                return db.User.create(input, { transaction: t });
+                return db.User
+                .create(input, { transaction: t });
             })
                 .catch(handleError);
-
         },
 
         updateUser: (parent, { id, input }, { db }: { db: DbConnection }, info: GraphQLResolveInfo) => {
@@ -59,11 +59,9 @@ export const userResolvers = {
                     .then((user: UserInstance) => {
                         if (!user) throw new Error(`Usuário com id: ${id} não encontrado`);
                         return user.update(input, { transaction: t });
-
                     });
             })
                 .catch(handleError);
-
         },
 
         updateUserPassword: (parent, { id, input }, { db }: { db: DbConnection }, info: GraphQLResolveInfo) => {
@@ -76,11 +74,9 @@ export const userResolvers = {
                         return user
                             .update(input, { transaction: t })
                             .then((user: UserInstance) => !!user);
-
                     });
             })
                 .catch(handleError);
-
         },
 
         deleteUser: (parent, { id, input }, { db }: { db: DbConnection }, info: GraphQLResolveInfo) => {
@@ -96,8 +92,6 @@ export const userResolvers = {
                     });
             })
                 .catch(handleError);
-
         }
-
     }
 }

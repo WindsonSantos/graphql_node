@@ -1,6 +1,7 @@
-import * as  Sequelize from 'sequelize';
-import { BaseModelInterface } from "../interfaces/BaseModelInterface";
+import * as Sequelize from 'sequelize';
 import { genSaltSync, hashSync, compareSync } from 'bcryptjs';
+
+import { BaseModelInterface } from "../interfaces/BaseModelInterface";
 import { ModelsInterface } from '../interfaces/ModelsInterface';
 
 export interface UserAttributes {

@@ -1,7 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const postTypes = `
-
     type Post {
         id: ID!
         title: String!
@@ -18,7 +17,6 @@ const postTypes = `
         content: String!
         photo: String!
     }
-
 `;
 exports.postTypes = postTypes;
 const postQueries = `

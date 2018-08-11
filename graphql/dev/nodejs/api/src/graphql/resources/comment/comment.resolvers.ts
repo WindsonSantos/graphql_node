@@ -18,7 +18,6 @@ export const commentResolvers = {
             return db.Post
                 .findById(comment.get('post'))
                 .catch(handleError);
-
         },
     },
 
@@ -44,7 +43,7 @@ export const commentResolvers = {
             })
         },
 
-        updatePost: (parent, { id, input }, { db }: { db: DbConnection }, info: GraphQLResolveInfo) => {
+        updateComment: (parent, { id, input }, { db }: { db: DbConnection }, info: GraphQLResolveInfo) => {
             id = parseInt(id);
             return db.sequelize.transaction((t: Transaction) => {
                 return db.Comment
@@ -52,14 +51,13 @@ export const commentResolvers = {
                     .then((comment: CommentInstance) => {
                         if (!comment) throw new Error(`Comment com id: ${id} não encontrado`);
                         return comment.update(input, { transaction: t });
-
                     })
                     .catch(handleError);
                 ;
             })
         },
 
-        deletePost: (parent, { id, input }, { db }: { db: DbConnection }, info: GraphQLResolveInfo) => {
+        deleteComment: (parent, { id, input }, { db }: { db: DbConnection }, info: GraphQLResolveInfo) => {
             id = parseInt(id);
             return db.sequelize.transaction((t: Transaction) => {
                 return db.Comment

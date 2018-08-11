@@ -1,5 +1,4 @@
 const postTypes = `
-
     type Post {
         id: ID!
         title: String!
@@ -16,7 +15,6 @@ const postTypes = `
         content: String!
         photo: String!
     }
-
 `;
 
 const postQueries = `

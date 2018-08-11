@@ -7,7 +7,7 @@ import { DbConnection } from '../interfaces/DbConnectionIterface';
 const basename: string = path.basename(module.filename);
 const env: string = 'development' || process.env.NODE_ENV;
 
-let config = require(path.resolve(`{__dirname}./../dist/config/config.json`))[env];
+let config = require(path.resolve(`${__dirname}./../config/config.json`))[env];
 
 let db = null;
 

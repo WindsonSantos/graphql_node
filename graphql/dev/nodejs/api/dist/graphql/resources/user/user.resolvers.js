@@ -36,7 +36,8 @@ exports.userResolvers = {
     Mutation: {
         createUser: (parent, { input }, { db }, info) => {
             return db.sequelize.transaction((t) => {
-                return db.User.create(input, { transaction: t });
+                return db.User
+                    .create(input, { transaction: t });
             })
                 .catch(utils_1.handleError);
         },

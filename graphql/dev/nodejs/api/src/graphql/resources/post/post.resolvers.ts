@@ -6,13 +6,11 @@ import { PostInstance } from "../../../models/PostModel";
 import { handleError } from "../../../utils/utils";
 
 export const postResolvers = {
-
     Post: {
         author: (post, { first = 10, offset = 0 }, { db }: { db: DbConnection }, info: GraphQLResolveInfo) => {
             return db.User
                 .findById(post.get('author'))
                 .catch(handleError);
-
         },
 
         comments: (post, { first = 10, offset = 0 }, { db }: { db: DbConnection }, info: GraphQLResolveInfo) => {
@@ -63,7 +61,6 @@ export const postResolvers = {
                     .then((post: PostInstance) => {
                         if (!post) throw new Error(`Post com id: ${id} não encontrado`);
                         return post.update(input, { transaction: t });
-
                     })
                     .catch(handleError);
             })
