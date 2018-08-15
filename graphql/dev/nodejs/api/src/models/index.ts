@@ -6,9 +6,7 @@ import { DbConnection } from '../interfaces/DbConnectionIterface';
 
 const basename: string = path.basename(module.filename);
 const env: string = 'development' || process.env.NODE_ENV;
-
 let config = require(path.resolve(`${__dirname}./../config/config.json`))[env];
-
 let db = null;
 
 if (!db) {
@@ -28,18 +26,19 @@ if (!db) {
     fs
         .readdirSync(__dirname)
         .filter((file: string) => {
-            return (file.indexOf('.') !== 0) && (file !== basename) && (file.slice(-3) === '.js')
+            const fileSlice: string = file.slice(-3);
+            return (file.indexOf('.') !== 0) && (file !== basename) && ((fileSlice === '.js') || (fileSlice === '.ts'));
         })
         .forEach((file: string) => {
             const model = sequelize.import(path.join(__dirname, file));
-            db[model['name']] == model;
+            db[model['name']] = model;
         });
 
-    Object.keys(db).forEach((modelNme: string) => {
-        if (db.User.associate) {
-            db.User.associate(db);
+    Object.keys(db).forEach((modelName: string) => {
+        if (db[modelName].associate) {
+            db[modelName].associate(db);
         }
-    })
+    });
 
     db['sequelize'] = sequelize;
 }
