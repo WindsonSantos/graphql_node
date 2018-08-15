@@ -38,8 +38,7 @@ exports.userResolvers = {
             return db.sequelize.transaction((t) => {
                 return db.User
                     .create(input, { transaction: t });
-            })
-                .catch(utils_1.handleError);
+            }).catch(utils_1.handleError);
         },
         updateUser: (parent, { id, input }, { db }, info) => {
             id = parseInt(id);
