@@ -6,9 +6,8 @@ import { ModelsInterface } from '../interfaces/ModelsInterface';
 export interface CommentAttributes {
     id?: number;
     comment?: string;
-    content?: string;
-    post?: string;
-    user?: string;
+    post?: number;
+    user?: number;
     createdAt?: string;
     updatedAt?: string;
 }

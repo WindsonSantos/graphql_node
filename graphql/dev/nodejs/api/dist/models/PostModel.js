@@ -9,21 +9,19 @@ exports.default = (sequelize, DataTypes) => {
             primaryKey: true,
             autoIncrement: true
         },
-        name: {
+        title: {
             type: DataTypes.STRING,
-            allowNull: false,
+            allowNull: false
         },
-        email: {
-            type: DataTypes.STRING(128),
-            allowNull: false,
-            unique: true
+        content: {
+            type: DataTypes.TEXT,
+            allowNull: false
         },
         photo: {
             type: DataTypes.BLOB({
                 length: 'long'
             }),
-            allowNull: true,
-            defaultValue: null
+            allowNull: false
         }
     }, {
         tableName: 'posts'

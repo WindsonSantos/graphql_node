@@ -8,7 +8,7 @@ export interface PostAttributes {
     title?: string;
     content?: string;
     photo?: string;
-    author?: string;
+    author?: number;
     createdAt?: string;
     updatedAt?: string;
 }
@@ -25,25 +25,24 @@ export default (sequelize: Sequelize.Sequelize, DataTypes: Sequelize.DataTypes):
             primaryKey: true,
             autoIncrement: true
         },
-        name: {
+        title: {
             type: DataTypes.STRING,
-            allowNull: false,
+            allowNull: false
         },
-        email: {
-            type: DataTypes.STRING(128),
-            allowNull: false,
-            unique: true
+        content: {
+            type: DataTypes.TEXT,
+            allowNull: false
         },
         photo: {
             type: DataTypes.BLOB({
                 length: 'long'
             }),
-            allowNull: true,
-            defaultValue: null
+            allowNull: false
         }
-    }, {
+    },
+        {
             tableName: 'posts'
-    });
+        });
 
     Post.associate = (models: ModelsInterface): void => {
         Post.belongsTo(models.User, {
