@@ -1,5 +1,5 @@
-import { GraphQLResolveInfo } from "graphql";
-import { Transaction } from "sequelize";
+import { GraphQLResolveInfo } from 'graphql';
+import { Transaction } from 'sequelize';
 
 import { DbConnection } from "../../../interfaces/DbConnectionIterface";
 import { UserInstance } from "../../../models/UserModel";
@@ -46,9 +46,8 @@ export const userResolvers = {
         createUser: (parent, { input }, { db }: { db: DbConnection }, info: GraphQLResolveInfo) => {
             return db.sequelize.transaction((t: Transaction) => {
                 return db.User
-                .create(input, { transaction: t });
-            })
-                .catch(handleError);
+                    .create(input, { transaction: t });
+            }).catch(handleError);
         },
 
         updateUser: (parent, { id, input }, { db }: { db: DbConnection }, info: GraphQLResolveInfo) => {
