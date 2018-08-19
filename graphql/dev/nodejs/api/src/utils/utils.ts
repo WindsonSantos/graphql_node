@@ -9,7 +9,7 @@ export const onError = (server: Server) => {
         let port: number | string = server.address().port;
         if (error.syscall !== 'listen') throw error;
         let bind = (typeof port === 'string') ? `pipe ${port}` : `port ${port}`;
-        switch(error.code) {
+        switch (error.code) {
             case 'EACCES':
                 console.error(`${bind} requires elevated privileges`);
                 process.exit(1);
