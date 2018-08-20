@@ -47,6 +47,7 @@ exports.default = (sequelize, DataTypes) => {
     });
     User.associate = (models) => { };
     User.prototype.isPassword = (encodedPass, password) => {
+        console.log('UserModel isPassword = ' + encodedPass);
         return bcryptjs_1.compareSync(password, encodedPass);
     };
     return User;

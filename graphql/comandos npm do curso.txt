@@ -56,3 +56,8 @@ Sessão 6, Aula 60
  
 isntalação dos tipos
  npm i -D -E @types/lodash@4.14.78
+ 
+ JWT
+ npm i -S -E jsonwebtoken@8.1.0
+ npm i -D -E @types/jsonwebtoken@7.2.3
+ 

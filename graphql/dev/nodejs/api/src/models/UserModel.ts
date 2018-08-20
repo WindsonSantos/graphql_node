@@ -3,6 +3,7 @@ import { genSaltSync, hashSync, compareSync } from 'bcryptjs';
 
 import { BaseModelInterface } from "../interfaces/BaseModelInterface";
 import { ModelsInterface } from '../interfaces/ModelsInterface';
+import { ECONNABORTED } from 'constants';
 
 export interface UserAttributes {
     id?: number;
@@ -72,9 +73,10 @@ export default (sequelize: Sequelize.Sequelize, DataTypes: Sequelize.DataTypes):
         }
     );
 
-    User.associate = (models: ModelsInterface) => { };
+    User.associate = (models: ModelsInterface): void => { };
 
     User.prototype.isPassword = (encodedPass: string, password: string): boolean => {
+        console.log('UserModel isPassword = ' + encodedPass)
         return compareSync(password, encodedPass);
     };
 

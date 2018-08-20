@@ -22,10 +22,7 @@ export const tokenResolvers = {
                 return {
                     token: jwt.sign(payload, JWT_SECRET)
                 }
-
             });
         }
-
     }
-
 };

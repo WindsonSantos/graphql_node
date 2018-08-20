@@ -4,6 +4,8 @@ import { Transaction } from 'sequelize';
 import { DbConnection } from "../../../interfaces/DbConnectionIterface";
 import { UserInstance } from "../../../models/UserModel";
 import { handleError } from "../../../utils/utils";
+import { compose } from '../../composable/composable.resolver';
+import { authResolvers } from '../../composable/authResolver';
 
 export const userResolvers = {
 
@@ -19,7 +21,7 @@ export const userResolvers = {
     },
 
     Query: {
-        users: (parent, { first = 10, offset = 0 }, { db }: { db: DbConnection }, info: GraphQLResolveInfo) => {
+        users: compose(...authResolvers)((parent, { first = 10, offset = 0 }, { db }: { db: DbConnection }, info: GraphQLResolveInfo) => {
             return db.User
                 .findAll({
                     limit: first,
@@ -27,7 +29,7 @@ export const userResolvers = {
                 })
                 .catch(handleError);
 
-        },
+        }),
 
         user: (parent, { id }, { db }: { db: DbConnection }, info: GraphQLResolveInfo) => {
             id = parseInt(id);
@@ -39,7 +41,7 @@ export const userResolvers = {
                 })
                 .catch(handleError);
 
-        }
+        },
     },
 
     Mutation: {
