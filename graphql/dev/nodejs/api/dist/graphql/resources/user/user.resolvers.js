@@ -34,6 +34,14 @@ exports.userResolvers = {
             })
                 .catch(utils_1.handleError);
         },
+        currentUser: composable_resolver_1.compose(...authResolver_1.authResolvers)((parent, args, { db, authUser }, info) => {
+            return db.User
+                .findById(authUser.id)
+                .then((user) => {
+                utils_1.throwError(!user, `User with id ${authUser.id} not found!`);
+                return user;
+            }).catch(utils_1.handleError);
+        })
     },
     Mutation: {
         createUser: (parent, { input }, { db }, info) => {
@@ -42,27 +50,23 @@ exports.userResolvers = {
                     .create(input, { transaction: t });
             }).catch(utils_1.handleError);
         },
-        updateUser: (parent, { id, input }, { db }, info) => {
-            id = parseInt(id);
+        updateUser: (parent, { input }, { db, authUser }, info) => {
             return db.sequelize.transaction((t) => {
                 return db.User
-                    .findById(id)
+                    .findById(authUser.id)
                     .then((user) => {
-                    if (!user)
-                        throw new Error(`Usuário com id: ${id} não encontrado`);
+                    utils_1.throwError(!user, `Usuário com id: ${authUser.id} não encontrado`);
                     return user.update(input, { transaction: t });
                 });
             })
                 .catch(utils_1.handleError);
         },
-        updateUserPassword: (parent, { id, input }, { db }, info) => {
-            id = parseInt(id);
+        updateUserPassword: (parent, { input }, { db, authUser }, info) => {
             return db.sequelize.transaction((t) => {
                 return db.User
-                    .findById(id)
+                    .findById(authUser.id)
                     .then((user) => {
-                    if (!user)
-                        throw new Error(`Usuário com id: ${id} não encontrado`);
+                    utils_1.throwError(!user, `Usuário com id: ${authUser.id} não encontrado`);
                     return user
                         .update(input, { transaction: t })
                         .then((user) => !!user);
@@ -70,14 +74,12 @@ exports.userResolvers = {
             })
                 .catch(utils_1.handleError);
         },
-        deleteUser: (parent, { id, input }, { db }, info) => {
-            id = parseInt(id);
+        deleteUser: (parent, { input }, { db, authUser }, info) => {
             return db.sequelize.transaction((t) => {
                 return db.User
-                    .findById(id)
+                    .findById(authUser.id)
                     .then((user) => {
-                    if (!user)
-                        throw new Error(`Usuário com id: ${id} não encontrado`);
+                    utils_1.throwError(!user, `Usuário com id: ${authUser.id} não encontrado`);
                     return user
                         .destroy({ transaction: t })
                         .then(user => !!user);

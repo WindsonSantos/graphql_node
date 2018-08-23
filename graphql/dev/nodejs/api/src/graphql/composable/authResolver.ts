@@ -11,6 +11,7 @@ export const authResolver: ComposableResolver<any, ResolverContext> =
         return (parent, args, context: ResolverContext, info) => { 
 
             console.log('authResolver: authUser='+ context.authUser + ' - authorization: '+ context.authorization)
+            
             if (context.authUser || context.authorization) {
                 return resolver(parent, args, context, info);
             }

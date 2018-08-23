@@ -3,7 +3,10 @@ import { Transaction } from "sequelize";
 
 import { DbConnection } from "../../../interfaces/DbConnectionIterface";
 import { PostInstance } from "../../../models/PostModel";
-import { handleError } from "../../../utils/utils";
+import { handleError, throwError } from "../../../utils/utils";
+import { compose } from "../../composable/composable.resolver";
+import { authResolvers } from "../../composable/authResolver";
+import { AuthUser } from "../../../interfaces/AuthUserInterface";
 
 export const postResolvers = {
     Post: {
@@ -19,7 +22,7 @@ export const postResolvers = {
                 limit: first,
                 offset: offset
             })
-            .catch(handleError);
+                .catch(handleError);
         },
     },
 
@@ -29,7 +32,7 @@ export const postResolvers = {
                 limit: first,
                 offset: offset
             })
-            .catch(handleError);
+                .catch(handleError);
         },
 
         post: (parent, { id }, { db }: { db: DbConnection }, info: GraphQLResolveInfo) => {
@@ -37,7 +40,7 @@ export const postResolvers = {
             return db.Post
                 .findById(id)
                 .then((post: PostInstance) => {
-                    if (!post) throw new Error(`Post com o id: ${id} não foi encontrado`);
+                    throwError(!post, `Post com o id: ${id} não foi encontrado`);
                     return post;
                 })
                 .catch(handleError);
@@ -45,40 +48,45 @@ export const postResolvers = {
     },
 
     Mutation: {
-        
-        createPost: (parent, { input }, { db }: { db: DbConnection }, info: GraphQLResolveInfo) => {
+
+        createPost: compose(...authResolvers)((parent, { input }, { db, authUser }: { db: DbConnection, authUser: AuthUser }, info: GraphQLResolveInfo) => {
+            input.author = authUser.id
             return db.sequelize.transaction((t: Transaction) => {
                 return db.Post
                     .create(input, { transaction: t });
             })
-            .catch(handleError);
-        },
+                .catch(handleError);
+        }),
 
-        updatePost: (parent, { id, input }, { db }: { db: DbConnection }, info: GraphQLResolveInfo) => {
+        updatePost: compose(...authResolvers)((parent, { id, input }, { db, authUser }: { db: DbConnection, authUser: AuthUser }, info: GraphQLResolveInfo) => {
             id = parseInt(id);
             return db.sequelize.transaction((t: Transaction) => {
                 return db.Post
                     .findById(id)
                     .then((post: PostInstance) => {
-                        if (!post) throw new Error(`Post com id: ${id} não encontrado`);
+                        throwError(!post, `Post com id: ${id} não encontrado`);
+                        throwError(post.get('author') != authUser.id, `Unauthorized!`);
+                        input.author = authUser.id;
                         return post.update(input, { transaction: t });
                     })
                     .catch(handleError);
             })
-        },
+        }),
 
-        deletePost: (parent, { id, input }, { db }: { db: DbConnection }, info: GraphQLResolveInfo) => {
+        deletePost: compose(...authResolvers)((parent, { id, input }, { db, authUser }: { db: DbConnection, authUser: AuthUser }, info: GraphQLResolveInfo) => {
             id = parseInt(id);
             return db.sequelize.transaction((t: Transaction) => {
                 return db.User
                     .findById(id)
                     .then((post: PostInstance) => {
-                        if (!post) throw new Error(`Post com id: ${id} não encontrado`);
+                        throwError(!post, `Post com id: ${id} não encontrado`);
+                        throwError(post.get('author') != authUser.id, `Unauthorized!`);
+
                         return post
                             .destroy({ transaction: t })
                             .then(post => !!post);
                     }).catch(handleError);
             })
-        }
+        })
     }
 }
