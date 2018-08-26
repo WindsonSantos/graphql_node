@@ -1,4 +1,4 @@
-
+﻿
 Criar projeto/ inicializar o npm
 npm init -y
 
@@ -60,4 +60,9 @@ isntalação dos tipos
  JWT
  npm i -S -E jsonwebtoken@8.1.0
  npm i -D -E @types/jsonwebtoken@7.2.3
+
+Sessão 08 aula 89 DataLoaders
+npm i -S -E dataloader@1.3.0
+
+
  

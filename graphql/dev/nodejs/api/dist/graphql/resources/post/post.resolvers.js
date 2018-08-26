@@ -1,36 +1,48 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+const graphqlields = require("graphql-fields");
 const utils_1 = require("../../../utils/utils");
 const composable_resolver_1 = require("../../composable/composable.resolver");
 const authResolver_1 = require("../../composable/authResolver");
 exports.postResolvers = {
     Post: {
-        author: (post, { first = 10, offset = 0 }, { db }, info) => {
-            return db.User
-                .findById(post.get('author'))
+        author: (post, { first = 10, offset = 0 }, { db, dataloaders: { userLoader } }, info) => {
+            return userLoader
+                .load({
+                key: post.get('author'),
+                info
+            })
                 .catch(utils_1.handleError);
+            // return db.User
+            //     .findById(post.get('author'))
+            //     .catch(handleError);
         },
-        comments: (post, { first = 10, offset = 0 }, { db }, info) => {
-            return db.Comment.findAll({
+        comments: (post, { first = 10, offset = 0 }, context, info) => {
+            return context.db.Comment.findAll({
                 where: { post: post.get('id') },
                 limit: first,
-                offset: offset
+                offset: offset,
+                attributes: context.requestedFields.getFields(info)
             })
                 .catch(utils_1.handleError);
         },
     },
     Query: {
-        posts: (parent, { first = 10, offset = 0 }, { db }, info) => {
-            return db.Post.findAll({
+        posts: (parent, { first = 10, offset = 0 }, context, info) => {
+            console.log(Object.keys(graphqlields(info)));
+            return context.db.Post.findAll({
                 limit: first,
-                offset: offset
+                offset: offset,
+                attributes: context.requestedFields.getFields(info, { keep: ['id'], exclude: ['comments'] })
             })
                 .catch(utils_1.handleError);
         },
-        post: (parent, { id }, { db }, info) => {
+        post: (parent, { id }, context, info) => {
             id = parseInt(id);
-            return db.Post
-                .findById(id)
+            return context.db.Post
+                .findById(id, {
+                attributes: context.requestedFields.getFields(info, { keep: ['id'], exclude: ['posts'] })
+            })
                 .then((post) => {
                 utils_1.throwError(!post, `Post com o id: ${id} não foi encontrado`);
                 return post;

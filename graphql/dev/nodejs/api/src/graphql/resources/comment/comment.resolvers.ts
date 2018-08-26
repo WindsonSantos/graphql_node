@@ -8,30 +8,42 @@ import { handleError, throwError } from "../../../utils/utils";
 import { AuthUser } from "../../../interfaces/AuthUserInterface";
 import { compose } from "../../composable/composable.resolver";
 import { authResolvers } from "../../composable/authResolver";
-import { addCatchUndefinedToSchema } from "graphql-tools";
+import { DataLoaders } from "../../../interfaces/DataLoadersInterface";
+import { ResolverContext } from "../../../interfaces/ResolverContextInterface";
 
 export const commentResolvers = {
     Comment: {
-        user: (comment, args, { db }: { db: DbConnection }, info: GraphQLResolveInfo) => {
-            return db.User
-                .findById(comment.get('user'))
+        user: (comment, args, { db, dataloaders: { userLoader } }: { db: DbConnection, dataloaders: DataLoaders }, info: GraphQLResolveInfo) => {
+            return userLoader
+                .load({
+                    key: comment.get('user'),
+                    info
+                }
+                )
                 .catch(handleError);
+
         },
 
-        post: (comment, args, { db }: { db: DbConnection }, info: GraphQLResolveInfo) => {
-            return db.Post
-                .findById(comment.get('post'))
+        post: (comment, args, { db, dataloaders: { postLoader } }: { db: DbConnection, dataloaders: DataLoaders }, info: GraphQLResolveInfo) => {
+            return postLoader
+                .load({
+                    key: comment.get('post'),
+                    info
+                }
+                )
                 .catch(handleError);
+
         },
     },
 
     Query: {
-        commentsByPost: (post, { postId, first = 10, offset = 0 }, { db }: { db: DbConnection }, info: GraphQLResolveInfo) => {
+        commentsByPost: (post, { postId, first = 10, offset = 0 }, context: ResolverContext, info: GraphQLResolveInfo) => {
             postId = parseInt(postId);
-            return db.Comment.findAll({
-                where: { post: post.get('id') },
+            return context.db.Comment.findAll({
+                where: { post: postId },
                 limit: first,
-                offset: offset
+                offset: offset,
+                attributes: context.requestedFields.getFields(info)
             })
                 .catch(handleError);
         }

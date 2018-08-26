@@ -12,7 +12,9 @@ let db = null;
 if (!db) {
     db = {};
 
-    const operatosAlias = false;
+    const operatosAlias = {
+        $in: Sequelize.Op.in // [1,2,3,4,5]
+    };
 
     config = Object.assign(operatosAlias, config);
 

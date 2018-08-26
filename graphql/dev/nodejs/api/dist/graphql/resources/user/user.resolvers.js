@@ -5,28 +5,32 @@ const composable_resolver_1 = require("../../composable/composable.resolver");
 const authResolver_1 = require("../../composable/authResolver");
 exports.userResolvers = {
     User: {
-        posts: (user, { first = 10, offset = 0 }, { db }, info) => {
+        posts: (user, { first = 10, offset = 0 }, { db, requestedFields }, info) => {
             return db.Post.findAll({
                 where: { author: user.get('id') },
                 limit: first,
-                offset: offset
+                offset: offset,
+                attributes: requestedFields.getFields(info, { keep: ['id'], exclude: ['comments'] })
             })
                 .catch(utils_1.handleError);
         }
     },
     Query: {
-        users: composable_resolver_1.compose(...authResolver_1.authResolvers)((parent, { first = 10, offset = 0 }, { db }, info) => {
-            return db.User
+        users: composable_resolver_1.compose(...authResolver_1.authResolvers)((parent, { first = 10, offset = 0 }, context, info) => {
+            return context.db.User
                 .findAll({
                 limit: first,
-                offset: offset
+                offset: offset,
+                attributes: context.requestedFields.getFields(info, { keep: ['id'], exclude: ['posts'] })
             })
                 .catch(utils_1.handleError);
         }),
-        user: (parent, { id }, { db }, info) => {
+        user: (parent, { id }, context, info) => {
             id = parseInt(id);
-            return db.User
-                .findById(id)
+            return context.db.User
+                .findById(id, {
+                attributes: context.requestedFields.getFields(info, { keep: ['id'], exclude: ['posts'] })
+            })
                 .then((user) => {
                 if (!user)
                     throw new Error(`Usuário com id: ${id} não encontrado`);
@@ -34,11 +38,13 @@ exports.userResolvers = {
             })
                 .catch(utils_1.handleError);
         },
-        currentUser: composable_resolver_1.compose(...authResolver_1.authResolvers)((parent, args, { db, authUser }, info) => {
-            return db.User
-                .findById(authUser.id)
+        currentUser: composable_resolver_1.compose(...authResolver_1.authResolvers)((parent, args, context, info) => {
+            return context.db.User
+                .findById(context.authUser.id, {
+                attributes: context.requestedFields.getFields(info, { keep: ['id'], exclude: ['posts'] })
+            })
                 .then((user) => {
-                utils_1.throwError(!user, `User with id ${authUser.id} not found!`);
+                utils_1.throwError(!user, `User with id ${context.authUser.id} not found!`);
                 return user;
             }).catch(utils_1.handleError);
         })
