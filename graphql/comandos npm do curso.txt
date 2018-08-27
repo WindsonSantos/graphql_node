@@ -1,9 +1,6 @@
-
+﻿
 Criar projeto/ inicializar o npm
 npm init -y
-
-
-
 
 criar a referencia do typescript no projeto
 npm i -D -E typescript@2.5.3
@@ -13,11 +10,74 @@ node dist/app - vai printar o hello world no app.js
 Instalar o gulp para automatizar as tarefas do projeto
 npm i -D -E gulp@3.9.1 gulp-typescript@3.2.2 gulp-clean@0.3.2
 
-Restart de servido com nodemon
+Restart de servido com nodemon(projeto fica dando erro ao instalar esta versão, só corrigido ao instalar a versão abaixo).
 npm i -D -E nodemon@1.12.0
+Instalar a versão abaixo que o projeto vai funcionar
 npm install --save-dev gulp-nodemon
 
 Instalar express - receber as requisições
 npm i -S -E express@4.16.2
 pacotes de tipos do typescritp
 npm i -D -E @types/express@4.0.37 @types/node@8.0.34
+
+Instalando o graphql pacote do express com graphql/ graphql puro e ferramentas do graphql
+npm i -S -E express-graphql@0.6.11 graphql@0.11.7 graphql-tools@2.3.0
+
+instalar pacotes de tipos
+npm i -D -E @types/express-graphql@0.0.34 @types/graphql@0.11.5
+
+Após a instalação dos pacotes de graphql vai aparecer muitos erros de @types/bluebird, para corrigir tem que rodar o npm abaixo para fazer o downgrade da versão que foi istalada automaticamente
+npm i -D -E @types/bluebird@3.5.21
+
+Banco de dados ...
+
+Instalar o Sequelize
+npm i -D -E sequelize@4.13.10 mysql2@1.4.2
+
+pacote de tipos de sequelize@
+
+npm i -D -E @types/sequelize@4.0.76
+
+Instalação do pacote de criptar senha bcrypt
+npm i -S -E bcryptjs@2.4.3
+Instalar pacote de tipos
+npm i -D -E @types/bcryptjs@2.4.1
+
+
+Instalação Sequelize-Cli e ConfigInit - Sessão4, Aula 39
+npm i -g sequelize-cli@3.0.0
+npm ls -g --depth=0
+
+Criar pasta de configuração sequelize - Sessão4, Aula 39
+ sequelize init:config --config  src/config/config.json
+ 
+Sessão 6, Aula 60
+ npm i -S -E lodash@4.17.4
+ 
+isntalação dos tipos
+ npm i -D -E @types/lodash@4.14.78
+ 
+ JWT
+ npm i -S -E jsonwebtoken@8.1.0
+ npm i -D -E @types/jsonwebtoken@7.2.3
+
+Sessão 08 aula 89 DataLoaders
+npm i -S -E dataloader@1.3.0
+
+Sessão 9 aula 98 AST Buscando campos apenas necessários
+npm i -S -E graphql-fields@1.0.2
+
+Sessão 09 aula 111 Setup do ambiente de testes
+npm i -D -E mocha@4.0.1 chai@4.1.2 chai-http@3.0.0
+pacotes de tipos
+npm i -D -E @types/mocha@2.2.44 @types/chai@4.0.4 @types/chai-http@3.0.3
+
+pacote para executar os testes em typescript pois o chai não consegue interpretar typescript
+npm i -D -E ts-node@3.3.0
+
+NPM para validar percentual de cobertura de código
+npm i -D -E nyc@11.3.0
+
+
+
+ 
