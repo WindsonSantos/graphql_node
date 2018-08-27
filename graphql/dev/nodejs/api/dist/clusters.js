@@ -1,0 +1,31 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const cluster = require("cluster");
+const os_1 = require("os");
+class Clusters {
+    constructor() {
+        this.cpus = os_1.cpus();
+        this.init();
+    }
+    init() {
+        if (cluster.isMaster) {
+            console.log('MASTER');
+            this.cpus.forEach(() => cluster.fork());
+            cluster.on('listening', (worker) => {
+                console.log('Cluster %d connecterd', worker.process.pid);
+            });
+            cluster.on('disconnect', (worker) => {
+                console.log('Cluster %d disconnected', worker.process.pid);
+            });
+            cluster.on('exit', (worker) => {
+                console.log('Cluster %d exited', worker.process.pid);
+                cluster.fork();
+            });
+        }
+        else {
+            console.log('Workers');
+            require('./index');
+        }
+    }
+}
+exports.default = new Clusters();

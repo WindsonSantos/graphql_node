@@ -64,5 +64,20 @@ isntalação dos tipos
 Sessão 08 aula 89 DataLoaders
 npm i -S -E dataloader@1.3.0
 
+Sessão 9 aula 98 AST Buscando campos apenas necessários
+npm i -S -E graphql-fields@1.0.2
+
+Sessão 09 aula 111 Setup do ambiente de testes
+npm i -D -E mocha@4.0.1 chai@4.1.2 chai-http@3.0.0
+pacotes de tipos
+npm i -D -E @types/mocha@2.2.44 @types/chai@4.0.4 @types/chai-http@3.0.3
+
+pacote para executar os testes em typescript pois o chai não consegue interpretar typescript
+npm i -D -E ts-node@3.3.0
+
+NPM para validar percentual de cobertura de código
+npm i -D -E nyc@11.3.0
+
+
 
  
